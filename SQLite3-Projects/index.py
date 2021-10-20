@@ -24,7 +24,7 @@ def signup(nameOfUser, userNameInput, passwordInput):
 def login(userNameInput, passwordInput):
     
     
-    c.execute('SELECT * FROM signUpUser WHERE userName = ? and password = ?', (userNameInput, passwordInput)) 
+    c.execute('SELECT * FROM signUpUser WHERE userName = ? and password = ?', (userNameInput, passwordInput)) #verifies userName / password in signUpUser
     rows = c.fetchall()
     for r in rows:
         print(r)
