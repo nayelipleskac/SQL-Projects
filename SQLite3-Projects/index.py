@@ -35,16 +35,13 @@ def login(userNameInput, passwordInput):
 def deleteAccount(userNameInput, passwordInput):
     c.execute('DELETE FROM signUpUser WHERE userName = ? and password = ?', (userNameInput, passwordInput))
     rows = c.fetchall()
-     
     print('record found and deleted')
-def resetPassword(userNameInput, passwordInput):
-    pass
+    
+def resetPassword(userNameInput, newPasswordInput):
+    c.execute('UPDATE signUpUser SET password = ? WHERE userName = ?', (newPasswordInput, userNameInput))
+    print('passwored reset!')
 
    
-
-      
-
-    
 
     # if c.fetchone()[0] == 1:
     #     pass
@@ -59,6 +56,7 @@ print('Login Menu')
 print('1. Signup')
 print('2. Login')
 print('3. Delete Account')
+print('4. Reset Password')
 
 userInput = input('Enter your choice (1/2/3): ')
 
@@ -78,9 +76,13 @@ elif userInput == '2':
     passwordInput = input('enter your password: ')
     login(userNameInput, passwordInput)
 elif userInput == '3':
-    findUserName = input('enter your username to delete: ')
-    findPassword = input('enter your password to delete: ')
-    deleteAccount(findUserName, findPassword)
+    userNameInput = input('enter your username to delete: ')
+    passwordInput = input('enter your password to delete: ')
+    deleteAccount(userNameInput, passwordInput)
+elif userInput == '4':
+    userNameInput = input('enter your username: ')
+    newPasswordInput = input('enter your new password: ')
+    resetPassword(userNameInput, newPasswordInput)
 else:
     print('enter 1 or 2 to signup/login')
 
