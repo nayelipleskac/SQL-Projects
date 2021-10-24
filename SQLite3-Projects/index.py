@@ -62,18 +62,6 @@ def showTable():
         print(row)
 
 
-
-
-
-    # if c.fetchone()[0] == 1:
-    #     pass
-    # else:
-    #     print('sorry, try again')
-        # userNameInput = input('enter your username: ')
-        # passwordInput = input('enter your password: ')
-
-
-
 print('Login Menu')
 print('1. Signup')
 print('2. Login')
