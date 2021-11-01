@@ -71,10 +71,11 @@ while True:
 
     pygame.draw.rect(screen,red,(foodx,foody,10,10),0)
     
-    snakelist.insert(0,([snakelist[0][0],snakelist[0][1]]))
     
     for each in snakelist:
         pygame.draw.rect(screen,green,(each[0],each[1],10,10),0)
+    snakelist.insert(0,([snakelist[0][0],snakelist[0][1]]))
+
     snakelist.pop()
     snakelist[0][0]+=xMotion
     snakelist[0][1]+=yMotion
