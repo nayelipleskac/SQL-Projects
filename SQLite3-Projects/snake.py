@@ -35,30 +35,32 @@ class Snake():
         self.yMotion = 0
         self.snakelist = [[self.x, self.y]]
 
-
     def moveSnake(self):
         self.snakelist[0][0] += self.xMotion
         self.snakelist[0][1] += self.yMotion
 
     def eatFood(self):
-        if self.snakelist[0][0] in range (self.x, self.x + 10) and self.snakelist[0][1] in range (self.y, self.y + 10):
-            self.snakelist.insert(0,[self.x, self.y])
-            self.x = (random.randint(20,580) // 10 ) * 10
-            self.y = (random.randint(20,580) // 10 ) * 10
+        if self.snakelist[0][0] in range (food.x, food.x + 10) and self.snakelist[0][1] in range (food.y, food.y + 10):
+            self.snakelist.insert(0,[food.x, food.y])
 
+            print('food in contact with snake')
+            print(self.snakelist)
+
+            food.updateFoodPosition()
+           
     def updateSnake(self):
         for each in self.snakelist:
             pygame.draw.rect(screen,self.color,(each[0],each[1],10,10),0)
         self.snakelist.insert(0,([self.snakelist[0][0],self.snakelist[0][1]]))
         self.snakelist.pop()
 
-        # for each in snakelist[1:]:
-        #     if each == snakelist[0]:
-        #     print('snakelist:', snakelist)
-        #     print('snakelist[1:]', snakelist[1:])
-        #     showtext("GAME OVER.", 250,100, white)
-        #     print('head co. were already in list')
-        #     break
+
+        # for each in self.snakelist[1:]:
+        #     if each == self.snakelist[0]:
+        #         showtext("GAME OVER...", 250,100, white)
+        #         print('you ran into yourself!')
+        #         break
+            
 
 snake = Snake()
 
@@ -71,6 +73,11 @@ class Food():
     def drawFood(self):
         pygame.draw.rect(screen, self.color, (self.x, self.y, 10, 10), 0)
 
+    def updateFoodPosition(self):
+        self.x = (random.randint(20,580) // 10 ) * 10
+        self.y = (random.randint(20,580) // 10 ) * 10
+
+
 food = Food()
 
 while True:
@@ -78,8 +85,14 @@ while True:
 
     screen.fill(black)
     clock.tick(10)
-    # snake.addSegment()
+    print(snake.snakelist)
     snake.moveSnake()
+
+    if snake.snakelist[0] in snake.snakelist[1:]:
+        print('you ran into yourself')
+        showtext('GAME OVER...', 230, 100, white)
+        break
+    
     snake.eatFood()
     snake.updateSnake()
     food.drawFood()
@@ -103,29 +116,26 @@ while True:
 
     #Game over condition
     
-
-    # if snakelist[0] in snakelist[1:]:
         
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            print('user quit')
             pygame.quit()
             exit()
         if event.type == KEYDOWN:
             if event.key == K_DOWN:
-                snake.yMotion = 10
                 snake.xMotion = 0
+                snake.yMotion = 10
 
             if event.key == K_UP:
-                snake.yMotion = -10
                 snake.xMotion = 0
+                snake.yMotion = -10
 
-        
             if event.key == K_LEFT:
                 snake.xMotion = -10
                 snake.yMotion = 0
 
-       
             if event.key == K_RIGHT:
                 snake.xMotion = 10
                 snake.yMotion=0
