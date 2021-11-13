@@ -116,71 +116,90 @@ class Food():
 food = Food()
 
 while True:
-    pygame.display.update()
-    showMenu()
-    screen.fill(black)
-    clock.tick(10)
-    
-    # print(snake.snakelist)
-    snake.moveSnake()
-
-    if snake.snakelist[0] in snake.snakelist[1:]:
-        print('you ran into yourself')
-        showtext('GAME OVER...', 230, 100, white)
-        insertIntoTable(snake.playerScore)
+    if start == False:
         showMenu()
-
-    snake.eatFood()
-    snake.updateSnake()
-    food.drawFood()
-
-    #wall condition
-    if snake.snakelist[0][0] >= 600:
-        snake.snakelist[0][0] = 590
-        break
-
-    if snake.snakelist[0][0] <= 0:
-        snake.snakelist[0][0] = 10
-        break
-
-    if snake.snakelist[0][1] <= 0:
-        snake.snakelist[0][1] = 10
-        break
-
-    if snake.snakelist[0][1] >= 600:
-        snake.snakelist[0][1] = 590
-        break
-    
-        
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            print('user quit')
-            pygame.quit()
-            exit()
-        if event.type == KEYDOWN:
-            if event.key == K_1:
-                startGame()
-            if event.key == K_2:
-                showHighScores()
-            if event.key == K_3:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            if event.key == K_DOWN:
-                snake.xMotion = 0
-                snake.yMotion = 10
+            if event.type == KEYDOWN:
+                if event.key == K_1:
+                    startGame()
+                if event.key == K_2:
+                    print('user pressed high scores')
+                    break
+                    # showHighScores()
+                if event.key == K_3:
+                    pygame.quit()
+                    exit()
+    if start == True:
+        while True:
 
-            if event.key == K_UP:
-                snake.xMotion = 0
-                snake.yMotion = -10
+            pygame.display.update()
+            showMenu()
+            screen.fill(black)
+            clock.tick(10)
+            
+            # print(snake.snakelist)
+            snake.moveSnake()
 
-            if event.key == K_LEFT:
-                snake.xMotion = -10
-                snake.yMotion = 0
+            if snake.snakelist[0] in snake.snakelist[1:]:
+                print('you ran into yourself')
+                showtext('GAME OVER...', 230, 100, white)
+                insertIntoTable(snake.playerScore)
+                showMenu()
 
-            if event.key == K_RIGHT:
-                snake.xMotion = 10
-                snake.yMotion=0
+            snake.eatFood()
+            snake.updateSnake()
+            food.drawFood()
+
+            #wall condition
+            if snake.snakelist[0][0] >= 600:
+                snake.snakelist[0][0] = 590
+                break
+
+            if snake.snakelist[0][0] <= 0:
+                snake.snakelist[0][0] = 10
+                break
+
+            if snake.snakelist[0][1] <= 0:
+                snake.snakelist[0][1] = 10
+                break
+
+            if snake.snakelist[0][1] >= 600:
+                snake.snakelist[0][1] = 590
+                break
+            
+                
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    print('user quit')
+                    pygame.quit()
+                    exit()
+                if event.type == KEYDOWN:
+                    # if event.key == K_1:
+                    #     startGame()
+                    # if event.key == K_2:
+                    #     showHighScores()
+                    # if event.key == K_3:
+                    #     pygame.quit()
+                    #     exit()
+                    if event.key == K_DOWN:
+                        snake.xMotion = 0
+                        snake.yMotion = 10
+
+                    if event.key == K_UP:
+                        snake.xMotion = 0
+                        snake.yMotion = -10
+
+                    if event.key == K_LEFT:
+                        snake.xMotion = -10
+                        snake.yMotion = 0
+
+                    if event.key == K_RIGHT:
+                        snake.xMotion = 10
+                        snake.yMotion=0
 
 
 
