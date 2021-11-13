@@ -23,34 +23,123 @@ start = False
 
 def showtext(msg,x,y,color):
     font = pygame.font.SysFont("freesans", 32)
-    msgobj = font.render(msg,False,white)
+    msgobj = font.render(msg,False,color)
     screen.blit(msgobj,(x,y))
 
 def showMenu():
-    screen.fill(black)
-    # start == True
+    # screen.fill(black)
+    pygame.display.update()
     showtext('SNAKE WORLD', 230, 100, white)
     showtext('Select an option:', 230, 160, white)
     showtext('1. Start', 250, 220, white)
     showtext('2. HighScore', 250, 270, white)
     showtext('3. Exit', 250, 320, white)
 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        if event.type == KEYDOWN:
+            if event.key == K_1:
+                startGame()
+            if event.key == K_2:
+                print('user pressed high scores')
+                showHighScores()
+            if event.key == K_3:
+                pygame.quit()
+                exit()
+
 def startGame():
-    start == True
+    start = True
+    while True:
+    
+        pygame.display.update()
+        showMenu()
+        screen.fill(black)
+        clock.tick(10)
+        
+        # print(snake.snakelist)
+        snake.moveSnake()
+
+        if snake.snakelist[0] in snake.snakelist[1:]:
+            print('you ran into yourself')
+            showtext('GAME OVER...', 230, 100, white)
+            insertIntoTable(snake.playerScore)
+            showMenu()
+
+        snake.eatFood()
+        snake.updateSnake()
+        food.drawFood()
+
+        #wall condition
+        if snake.snakelist[0][0] >= 600:
+            snake.snakelist[0][0] = 590
+            showMenu()
+            break
+
+
+        if snake.snakelist[0][0] <= 0:
+            snake.snakelist[0][0] = 10
+            showMenu()
+
+            break
+
+        if snake.snakelist[0][1] <= 0:
+            snake.snakelist[0][1] = 10
+            showMenu()
+
+            break
+
+        if snake.snakelist[0][1] >= 600:
+            snake.snakelist[0][1] = 590
+            showMenu()
+
+            break
+        
+            
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                print('user quit')
+                pygame.quit()
+                exit()
+            if event.type == KEYDOWN:
+                
+                if event.key == K_DOWN:
+                    snake.xMotion = 0
+                    snake.yMotion = 10
+
+                if event.key == K_UP:
+                    snake.xMotion = 0
+                    snake.yMotion = -10
+
+                if event.key == K_LEFT:
+                    snake.xMotion = -10
+                    snake.yMotion = 0
+
+                if event.key == K_RIGHT:
+                    snake.xMotion = 10
+                    snake.yMotion=0
 
 def showHighScores():
     screen.fill(black)
     pygame.display.update()
-    showtext('HIGH SCORES', 250, 100, white)
+    showtext('HIGH SCORES', 30, 100, red)
+    showtext('1. '+ 'hs', 30, 140, red)
+    showtext('2. ', 30, 170, red)
+    showtext('3. ', 30, 200, red)
+    showtext('4. ', 30, 230, red)
+    showtext('5. ', 30, 260, red)
 
+    #displays highest 5 scores
     c.execute('SELECT * FROM highScores WHERE score')
-    getRows =c.fetchall()
+    getRows = c.fetchall()
     for row in getRows: 
         print(row)
 
 
 def createTable():
-    c.execute("SELECT count(scores) FROM sqlite_master WHERE type='table' AND name='highScores' ")
+    c.execute("SELECT count(scores) FROM sqlite_master WHERE type='table' AND name='highScores'")
 
     #if the count is 1, then table exists
     if c.fetchone()[0]==1 : {
@@ -118,90 +207,10 @@ food = Food()
 while True:
     if start == False:
         showMenu()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            if event.type == KEYDOWN:
-                if event.key == K_1:
-                    startGame()
-                if event.key == K_2:
-                    print('user pressed high scores')
-                    break
-                    # showHighScores()
-                if event.key == K_3:
-                    pygame.quit()
-                    exit()
+        
     if start == True:
-        while True:
-
-            pygame.display.update()
-            showMenu()
-            screen.fill(black)
-            clock.tick(10)
-            
-            # print(snake.snakelist)
-            snake.moveSnake()
-
-            if snake.snakelist[0] in snake.snakelist[1:]:
-                print('you ran into yourself')
-                showtext('GAME OVER...', 230, 100, white)
-                insertIntoTable(snake.playerScore)
-                showMenu()
-
-            snake.eatFood()
-            snake.updateSnake()
-            food.drawFood()
-
-            #wall condition
-            if snake.snakelist[0][0] >= 600:
-                snake.snakelist[0][0] = 590
-                break
-
-            if snake.snakelist[0][0] <= 0:
-                snake.snakelist[0][0] = 10
-                break
-
-            if snake.snakelist[0][1] <= 0:
-                snake.snakelist[0][1] = 10
-                break
-
-            if snake.snakelist[0][1] >= 600:
-                snake.snakelist[0][1] = 590
-                break
-            
-                
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    print('user quit')
-                    pygame.quit()
-                    exit()
-                if event.type == KEYDOWN:
-                    # if event.key == K_1:
-                    #     startGame()
-                    # if event.key == K_2:
-                    #     showHighScores()
-                    # if event.key == K_3:
-                    #     pygame.quit()
-                    #     exit()
-                    if event.key == K_DOWN:
-                        snake.xMotion = 0
-                        snake.yMotion = 10
-
-                    if event.key == K_UP:
-                        snake.xMotion = 0
-                        snake.yMotion = -10
-
-                    if event.key == K_LEFT:
-                        snake.xMotion = -10
-                        snake.yMotion = 0
-
-                    if event.key == K_RIGHT:
-                        snake.xMotion = 10
-                        snake.yMotion=0
-
-
+        startGame()
+       
 
 
 
