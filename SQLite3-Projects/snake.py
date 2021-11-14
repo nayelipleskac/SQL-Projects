@@ -77,9 +77,8 @@ def startGame():
         if snake.snakelist[0][0] >= 600:
             snake.snakelist[0][0] = 590
             print(snake.snakelist, len(snake.snakelist))
-
             showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
-
+            insertIntoTable(len(snake.snakelist))
             showMenu()
             break
 
@@ -87,31 +86,25 @@ def startGame():
         if snake.snakelist[0][0] <= 0:
             snake.snakelist[0][0] = 10
             print(snake.snakelist, len(snake.snakelist))
-
             showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
-
+            insertIntoTable(len(snake.snakelist))
             showMenu()
-
             break
 
         if snake.snakelist[0][1] <= 0:
             snake.snakelist[0][1] = 10
             print(snake.snakelist, len(snake.snakelist))
-
             showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
-
+            insertIntoTable(len(snake.snakelist))
             showMenu()
-
             break
 
         if snake.snakelist[0][1] >= 600:
             snake.snakelist[0][1] = 590
             print(snake.snakelist, len(snake.snakelist))
-
             showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
-
+            insertIntoTable(len(snake.snakelist))
             showMenu()
-
             break
         
             
@@ -142,29 +135,43 @@ def startGame():
 def showHighScores():
     screen.fill(black)
     pygame.display.update()
-    showtext('HIGH SCORES', 30, 100, red)
-    showtext('1. '+ 'hs', 30, 140, red)
-    showtext('2. ', 30, 170, red)
-    showtext('3. ', 30, 200, red)
-    showtext('4. ', 30, 230, red)
-    showtext('5. ', 30, 260, red)
 
     #displays highest 5 scores
-    c.execute('SELECT * FROM highScores WHERE score')
+    c.execute('SELECT score FROM highScores LIMIT 5')
     getRows = c.fetchall()
     for row in getRows: 
         print(row)
 
+    showtext('HIGH SCORES', 30, 100, red)
+    showtext('1. ' + row[0], 30, 140, red)
+    showtext('2. ' + row[1], 30, 170, red)
+    showtext('3. ' + row[2], 30, 200, red)
+    showtext('4. ' + row[3], 30, 230, red)
+    showtext('5. ' + row[4], 30, 260, red)
 
-# def createTable():
-#     c.execute("SELECT count(scores) FROM sqlite_master WHERE type='table' AND name='highScores'")
+    
 
-#     #if the count is 1, then table exists
-#     if c.fetchone()[0]==1 : {
-# 	    print('Table exists.')
-#     } 
-#     else:
-#         c.execute('CREATE TABLE highScores(scores integer)')
+def Nmaxelements(highScores, N):
+    final_list = []
+  
+    for i in range(0, N): 
+        max1 = 0
+          
+        for j in range(len(highScores)):     
+            if highScores[j] > max1:
+                max1 = highScores[j];
+                  
+        highScores.remove(max1);
+        final_list.append(max1)
+          
+    print(final_list)
+    print(final_list[0])
+    print(final_list[1])
+  
+  
+# Calling the function
+Nmaxelements(highScores, 5)
+
 
 def insertIntoTable(playerScore):
     c.execute("SELECT count(scores) FROM sqlite_master WHERE type='table' AND name='highScores'")
@@ -175,6 +182,7 @@ def insertIntoTable(playerScore):
     } 
     else:
         c.execute('CREATE TABLE highScores(scores integer)')
+        
     #inserts scores into table
     c.execute("INSERT INTO highScores(scores integer) VALUES (?)",(playerScore))
     
