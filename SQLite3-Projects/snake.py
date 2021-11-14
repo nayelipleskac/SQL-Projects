@@ -61,11 +61,13 @@ def startGame():
         # print(snake.snakelist)
         snake.moveSnake()
 
-        if snake.snakelist[0] in snake.snakelist[1:]:
+        if snake.snakelist[0] in snake.snakelist[1:]: 
+            print(snake.snakelist, len(snake.snakelist))
             print('you ran into yourself')
-            showtext('GAME OVER...', 230, 100, white)
-            insertIntoTable(snake.playerScore)
+            showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
+            insertIntoTable(len(snake.snakelist))
             showMenu()
+            break
 
         snake.eatFood()
         snake.updateSnake()
@@ -74,24 +76,40 @@ def startGame():
         #wall condition
         if snake.snakelist[0][0] >= 600:
             snake.snakelist[0][0] = 590
+            print(snake.snakelist, len(snake.snakelist))
+
+            showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
+
             showMenu()
             break
 
 
         if snake.snakelist[0][0] <= 0:
             snake.snakelist[0][0] = 10
+            print(snake.snakelist, len(snake.snakelist))
+
+            showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
+
             showMenu()
 
             break
 
         if snake.snakelist[0][1] <= 0:
             snake.snakelist[0][1] = 10
+            print(snake.snakelist, len(snake.snakelist))
+
+            showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
+
             showMenu()
 
             break
 
         if snake.snakelist[0][1] >= 600:
             snake.snakelist[0][1] = 590
+            print(snake.snakelist, len(snake.snakelist))
+
+            showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
+
             showMenu()
 
             break
@@ -138,7 +156,17 @@ def showHighScores():
         print(row)
 
 
-def createTable():
+# def createTable():
+#     c.execute("SELECT count(scores) FROM sqlite_master WHERE type='table' AND name='highScores'")
+
+#     #if the count is 1, then table exists
+#     if c.fetchone()[0]==1 : {
+# 	    print('Table exists.')
+#     } 
+#     else:
+#         c.execute('CREATE TABLE highScores(scores integer)')
+
+def insertIntoTable(playerScore):
     c.execute("SELECT count(scores) FROM sqlite_master WHERE type='table' AND name='highScores'")
 
     #if the count is 1, then table exists
@@ -147,8 +175,6 @@ def createTable():
     } 
     else:
         c.execute('CREATE TABLE highScores(scores integer)')
-
-def insertIntoTable(playerScore):
     #inserts scores into table
     c.execute("INSERT INTO highScores(scores integer) VALUES (?)",(playerScore))
     
