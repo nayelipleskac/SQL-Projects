@@ -137,57 +137,35 @@ def showHighScores():
     pygame.display.update()
 
     #displays highest 5 scores
-    c.execute('SELECT score FROM highScores LIMIT 5')
+    c.execute('SELECT scores FROM highScores LIMIT 5')
     getRows = c.fetchall()
-    for row in getRows: 
+    for row in range(0, len(getRows)): 
         print(row)
 
-    showtext('HIGH SCORES', 30, 100, red)
-    showtext('1. ' + row[0], 30, 140, red)
-    showtext('2. ' + row[1], 30, 170, red)
-    showtext('3. ' + row[2], 30, 200, red)
-    showtext('4. ' + row[3], 30, 230, red)
-    showtext('5. ' + row[4], 30, 260, red)
+        showtext('HIGH SCORES', 30, 100, red)
+        showtext(f'1. {row[0]}', 30, 140, red)
+        showtext(f'2. {row[1]}', 30, 170, red)
+        showtext(f'3. {row[2]}', 30, 200, red)
+        showtext(f'4. {row[3]}', 30, 230, red)
+        showtext(f'5. {row[4]}', 30, 260, red)
 
-    
-
-def Nmaxelements(highScores, N):
-    final_list = []
-  
-    for i in range(0, N): 
-        max1 = 0
-          
-        for j in range(len(highScores)):     
-            if highScores[j] > max1:
-                max1 = highScores[j];
-                  
-        highScores.remove(max1);
-        final_list.append(max1)
-          
-    print(final_list)
-    print(final_list[0])
-    print(final_list[1])
-  
-  
-# Calling the function
-Nmaxelements(highScores, 5)
 
 
 def insertIntoTable(playerScore):
-    c.execute("SELECT count(scores) FROM sqlite_master WHERE type='table' AND name='highScores'")
+    c.execute("SELECT * FROM sqlite_schema WHERE type='table' AND name='highScores' ")
 
     #if the count is 1, then table exists
-    if c.fetchone()[0]==1 : {
-	    print('Table exists.')
-    } 
-    else:
-        c.execute('CREATE TABLE highScores(scores integer)')
-        
-    #inserts scores into table
-    c.execute("INSERT INTO highScores(scores integer) VALUES (?)",(playerScore))
+    if c.fetchone()== None: 
+        c.execute('CREATE TABLE highScores(scores text)')
+        print('table doesnt exist.')
+
     
-    rows = c.fetchall()
-    print(rows)
+    #inserts scores into table
+    c.execute("INSERT INTO highScores(scores) VALUES (?)",(str(playerScore)))
+    conn.commit()
+
+    # rows = c.fetchall()
+    # print(rows)
         
 
 class Snake():
