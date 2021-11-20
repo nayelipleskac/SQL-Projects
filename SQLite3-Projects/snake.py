@@ -17,8 +17,10 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 white = (255, 255, 255)
 yellow = (200, 200, 0)
+purple = (128, 0, 128)
 
 start = False
+firstGame = True
 
 
 def showtext(msg,x,y,color):
@@ -27,13 +29,22 @@ def showtext(msg,x,y,color):
     screen.blit(msgobj,(x,y))
 
 def showMenu():
-    # screen.fill(black)
     pygame.display.update()
-    showtext('SNAKE WORLD', 230, 100, white)
-    showtext('Select an option:', 230, 160, white)
-    showtext('1. Start', 250, 220, white)
-    showtext('2. HighScore', 250, 270, white)
-    showtext('3. Exit', 250, 320, white)
+    #reset snakelist
+    if firstGame == True: 
+        showtext('SNAKE WORLD', 230, 100, white)
+        showtext('Select an option:', 230, 160, white)
+        showtext('1. Start', 250, 220, white)
+        showtext('2. HighScore', 250, 270, white)
+        showtext('3. Exit', 250, 320, white)
+    elif firstGame == False:
+        snake.snakelist = [[snake.x, snake.y]]
+        showtext('SNAKE WORLD', 230, 100, white)
+        showtext('Select an option:', 230, 160, white)
+        showtext('1. Start', 250, 220, white)
+        showtext('2. HighScore', 250, 270, white)
+        showtext('3. Exit', 250, 320, white)
+        
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -62,10 +73,13 @@ def startGame():
         snake.moveSnake()
 
         if snake.snakelist[0] in snake.snakelist[1:]: 
-            print(snake.snakelist, len(snake.snakelist))
+            print('*' , snake.snakelist, len(snake.snakelist))
             print('you ran into yourself')
             showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
             insertIntoTable(len(snake.snakelist))
+            print('length of snakelist: ' + len(snake.snakelist))
+
+            firstGame = False
             showMenu()
             break
 
@@ -76,34 +90,52 @@ def startGame():
         #wall condition
         if snake.snakelist[0][0] >= 600:
             snake.snakelist[0][0] = 590
-            print(snake.snakelist, len(snake.snakelist))
+            print('*' ,snake.snakelist, len(snake.snakelist))
             showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
             insertIntoTable(len(snake.snakelist))
+            print('length of snakelist: ' + len(snake.snakelist))
+
+            firstGame = False
+            print('firstGame = false')
             showMenu()
             break
 
 
         if snake.snakelist[0][0] <= 0:
             snake.snakelist[0][0] = 10
-            print(snake.snakelist, len(snake.snakelist))
+            print('*' , snake.snakelist, len(snake.snakelist))
             showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
             insertIntoTable(len(snake.snakelist))
+            print('length of snakelist: ' + len(snake.snakelist))
+
+            firstGame = False
+            print('firstGame = false')
+
             showMenu()
             break
 
         if snake.snakelist[0][1] <= 0:
             snake.snakelist[0][1] = 10
-            print(snake.snakelist, len(snake.snakelist))
+            print('*' , snake.snakelist, len(snake.snakelist))
             showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
             insertIntoTable(len(snake.snakelist))
+            print('length of snakelist: ' + len(snake.snakelist))
+            firstGame = False
+            print('firstGame = false')
+
             showMenu()
             break
 
         if snake.snakelist[0][1] >= 600:
             snake.snakelist[0][1] = 590
-            print(snake.snakelist, len(snake.snakelist))
+            print('* ' , snake.snakelist, len(snake.snakelist))
             showtext(f'Your Score: {len(snake.snakelist)}!', 230, 30, white)
             insertIntoTable(len(snake.snakelist))
+            print('length of snakelist: ' + len(snake.snakelist))
+
+            firstGame = False            
+            print('firstGame = false')
+
             showMenu()
             break
         
@@ -137,17 +169,23 @@ def showHighScores():
     pygame.display.update()
 
     #displays highest 5 scores
-    c.execute('SELECT scores FROM highScores LIMIT 5')
+    # c.execute('SELECT scores FROM highScores LIMIT 5')
+    c.execute('SELECT scores FROM highScores WHERE scores = (SELECT MAX(scores) FROM highScores LIMIT 5)')
     getRows = c.fetchall()
-    for row in range(0, len(getRows)): 
+    for row in getRows: 
         print(row)
+    print(getRows)
 
-        showtext('HIGH SCORES', 30, 100, red)
-        showtext(f'1. {row[0]}', 30, 140, red)
-        showtext(f'2. {row[1]}', 30, 170, red)
-        showtext(f'3. {row[2]}', 30, 200, red)
-        showtext(f'4. {row[3]}', 30, 230, red)
-        showtext(f'5. {row[4]}', 30, 260, red)
+    showtext('HIGH SCORES', 30, 100, red)
+    if len(getRows) < 5:
+        moreTimes = 5 - len(getRows)
+        showtext(f'Not enough info! play {moreTimes} more times', 30, 540, purple)
+    else: 
+        showtext(f'1. {getRows[0]}', 30, 140, red)
+        showtext(f'2. {getRows[1]}', 30, 170, red)
+        showtext(f'3. {getRows[2]}', 30, 200, red)
+        showtext(f'4. {getRows[3]}', 30, 230, red)
+        showtext(f'5. {getRows[4]}', 30, 260, red)
 
 
 
@@ -156,12 +194,13 @@ def insertIntoTable(playerScore):
 
     #if the count is 1, then table exists
     if c.fetchone()== None: 
-        c.execute('CREATE TABLE highScores(scores text)')
+        c.execute('CREATE TABLE highScores(scores int)')
         print('table doesnt exist.')
 
     
     #inserts scores into table
-    c.execute("INSERT INTO highScores(scores) VALUES (?)",(str(playerScore)))
+    c.execute("INSERT INTO highScores(scores) VALUES (?)",(int(playerScore)))
+    print(playerScore)
     conn.commit()
 
     # rows = c.fetchall()
