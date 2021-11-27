@@ -37,9 +37,21 @@ def moreDets(city1, city2):
     for row in getRows:
         print(row)
 
+def minimumAge():
+    c.execute("SELECT MIN(age) FROM users")
+
+def descending():
+    c.execute("SELECT age FROM users ORDER BY age DESC ")
+
+def avg():
+    c.execute("SELECT AVG(age) from users")
+
+def alphabeticalNames():
+    c.execute("SELECT userId, firstName, lastName, age FROM users ORDER BY firstName")
+
 
 def showTable():
-    c.execute('SELECT * FROM users')
+    # c.execute('SELECT * FROM users')
     getRows= c.fetchall()
     for row in getRows: 
         print(row)
@@ -52,6 +64,10 @@ def showTable():
 # updatePhoneNumber('40547475588', 'Ross')
 # delete('Joe', 'Smith')
 # details(25, 'Boston')
-moreDets('NY', 'Boston')
+# moreDets('NY', 'Boston')
+# minimumAge()
+# descending()
+# avg()
+alphabeticalNames()
 
-# showTable()
+showTable()
