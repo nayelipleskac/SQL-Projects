@@ -1,4 +1,5 @@
 #Practice Set 1
+#Part 1
 
 import sqlite3
 conn = sqlite3.connect('practice1.db')
@@ -68,6 +69,74 @@ def showTable():
 # minimumAge()
 # descending()
 # avg()
-alphabeticalNames()
+# alphabeticalNames()
+
+# showTable()
+
+#Part 2
+
+def createTable(firstName, lastName, joinDate, ordersTaken, country):
+    c.execute("SELECT * FROM sqlite_schema WHERE type='table' AND name= 'employee' ")
+
+    if c.fetchone()== None: 
+        c.execute('CREATE TABLE employee(employeeId integer PRIMARY KEY AUTOINCREMENT, firstName text, lastName text, joinDate date, ordersTaken integer, country text)') 
+
+    c.execute("INSERT INTO employee(firstName, lastName, joinDate, ordersTaken, country) VALUES (?,?,?,?,?)",(firstName, lastName, joinDate, ordersTaken,  country)) 
+    conn.commit()
+
+    print('CREATION OF TABLE AND INSERT SUCCESSFUL')
+
+def totalOrders():
+    c.execute("SELECT SUM(ordersTaken) FROM employee ")
+
+def groupByCountry():
+    c.execute('SELECT * FROM employee GROUP BY country')
+
+def experience():
+    c.execute('SELECT * from employee order by joinDate')
+
+def comparision(date1):
+    c.execute("SELECT firstName from employee where ? > joinDate", (date1))
+
+def likeNames():
+    c.execute("SELECT firstName, lastName FROM employee WHERE lastName LIKE 'S%'")
+
+def count():
+    c.execute("SELECT COUNT(firstName) from employee where joinDate > '2015'")
+
+def country():
+    c.execute('SELECT firstName, lastName from employee where country = "USA" or country = "Russia"')
+
+def maxOrders():
+    c.execute('SELECT MAX(ordersTaken) from employee')
+
+def showTable():
+    # c.execute("SELECT * FROM employee") #only use for createTable
+    getRows = c.fetchall()
+    for row in getRows:
+        print(row)
+
+def deleteTable():
+    c.execute("DROP TABLE employee")
+
+# createTable('Tony', 'Stark', '2017-05-21', 870, 'USA')
+# createTable('Natasha', 'Romanolf', '2018-06-08', 350, 'Russia')
+# createTable('Thor', 'Odinson', '2019-01-04', 3000, 'Asgard')
+# createTable('Steve', 'Rogers', '2013-03-24', 3500, 'USA')
+# createTable('Perer', 'Parker', '2018-01-04',470, 'India')
+# totalOrders()
+# groupByCountry()
+# experience()
+comparision('2015-01-01')
+# likeNames()
+# count()
+# country()
+# maxOrders()
+
 
 showTable()
+
+
+
+
+
