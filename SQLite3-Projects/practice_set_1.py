@@ -95,14 +95,14 @@ def groupByCountry():
 def experience():
     c.execute('SELECT * from employee order by joinDate')
 
-def comparision(date1):
-    c.execute("SELECT firstName from employee where ? > joinDate", (date1))
+def comparision(date1, date2):
+    c.execute("SELECT firstName, lastName from employee where ? > joinDate > ?", (date1, date2))
 
 def likeNames():
-    c.execute("SELECT firstName, lastName FROM employee WHERE lastName LIKE 'S%'")
+    c.execute("SELECT lastName FROM employee WHERE lastName LIKE 's%'")
 
-def count():
-    c.execute("SELECT COUNT(firstName) from employee where joinDate > '2015'")
+def count(startDate):
+    c.execute("SELECT COUNT(firstName) from employee where joinDate > ?", (startDate,))
 
 def country():
     c.execute('SELECT firstName, lastName from employee where country = "USA" or country = "Russia"')
@@ -127,12 +127,11 @@ def deleteTable():
 # totalOrders()
 # groupByCountry()
 # experience()
-comparision('2015-01-01')
+comparision('2019-01-01', '2017-01-01')
 # likeNames()
-# count()
+# count('2015-01-01')
 # country()
 # maxOrders()
-
 
 showTable()
 
