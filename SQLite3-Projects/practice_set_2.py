@@ -1,5 +1,4 @@
-#Practice Set 2
-#Part 1
+#Practice Set 2- Part 1
 
 import sqlite3
 conn = sqlite3.connect('practice2.db')
@@ -106,7 +105,7 @@ def deleteTable():
 # showEmployees()
 # showOrders()
 
-#Excercise 2
+#Excercise 2- Part 2
 def createStudents(studentName, grade):
     c.execute("SELECT * FROM sqlite_schema WHERE type='table' AND name= 'students' ")
 
@@ -134,43 +133,51 @@ def createBorrow_register(studentID, bookID, takenDate, returnedDate):
     c.execute("INSERT INTO borrow_register(studentID, bookID, takenDate, returnedDate) VALUES (?,?,?,?)", (studentID, bookID,takenDate, returnedDate))
     conn.commit() 
 
-def pageCountNumber():
-    c.execute('SELECT bookName from books where pageCount > 500')
-
-def notReturnedBook():
-    c.execute("SELECT studentID from borrow_register where returnedDate = '' ")
-    c.execute('SELECT studentName from students where studentID = 1')
 def checkOut():
     #ascending order of studentIDs
     c.execute('SELECT studentID from borrow_register ORDER BY studentID')
 
+def pageCountNumber():
+    c.execute('SELECT bookName from books where pageCount > 500')
+
+def notReturnedBook():
+    #students who have not returned a book back
+    c.execute("SELECT studentID from borrow_register where returnedDate = '' ")
+    c.execute('SELECT studentName from students where studentID = 1')
+
 def leftJoinBooks():
-    c.execute('SELECT * FROM books left join borrow_register using (bookID)')
-    c.execute('SELECT bookName from borrow_register where studentID = 5')
+    #left joining books and borrow_register
+    c.execute('SELECT * FROM borrow_register left join books using (bookID)')
 
 def leftJoinStudents():
-    c.execute('SELECT * FROM students left join borrow_register using (studentID)')
-def borrowedBook(date1, date2): 
-    
-    c.execute('SELECT studentID from borrow_register where takenDate > ? and takenDate < ?', (date1, date2) )
-    # c.execute('SELECT bookName from borrow_register where studentID = 5')
-    # c.execute('SELECT bookName from borrow_register where studentID = 2')
+    #left joining students and borrow_register
+    c.execute('SELECT * FROM borrow_register  left join students using (studentID)')
 
-def showStudents():
+def borrowedBookWithDate(): 
+    #students who borrowed a book in april 2020 w/ subqueries
+    # c.execute("SELECT firstName, lastName from employee where joinDate > ? and joinDate < ?", (date1, date2))
+
+    c.execute('SELECT studentName from students where studentID in (SELECT studentID from borrow_register where takenDate > "2020-04-00" and takenDate < "2020-04-30")');
+
+def borrowedBook():
+    #students who borrowed a book in 8th grade
+    c.execute('SELECT studentName from students where studentID in (SELECT studentID from students where grade = 8)');
+
+def showRows():
     # c.execute('SELECT * from students')
     getRows = c.fetchall()
     for rows in getRows:
         print(rows)
-def showBooks():
-    # c.execute('SELECT * from books')
-    getRows = c.fetchall()
-    for rows in getRows:
-        print(rows)
-def showBorrow_register():
-    # c.execute('SELECT * from borrow_register')
-    getRows = c.fetchall()
-    for rows in getRows:
-        print(rows)
+# def showBooks():
+#     # c.execute('SELECT * from books')
+#     getRows = c.fetchall()
+#     for rows in getRows:
+#         print(rows)
+# def showBorrow_register():
+#     # c.execute('SELECT * from borrow_register')
+#     getRows = c.fetchall()
+#     for rows in getRows:
+#         print(rows)
 def delete():
     c.execute('DROP TABLE students')
     c.execute('DROP TABLE books')
@@ -198,9 +205,10 @@ def delete():
 # pageCountNumber()
 # notReturnedBook()
 # checkOut()
-leftJoinBooks()
+# leftJoinBooks()
 # leftJoinStudents()
-# borrowedBook('2020-04-00', '2020-04-30')
-showStudents()
-showBooks()
-showBorrow_register()
+borrowedBookWithDate()
+# borrowedBook()
+showRows()
+# showBooks()
+# showBorrow_register()
