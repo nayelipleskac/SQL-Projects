@@ -155,8 +155,6 @@ def leftJoinStudents():
 
 def borrowedBookWithDate(): 
     #students who borrowed a book in april 2020 w/ subqueries
-    # c.execute("SELECT firstName, lastName from employee where joinDate > ? and joinDate < ?", (date1, date2))
-
     c.execute('SELECT studentName from students where studentID in (SELECT studentID from borrow_register where takenDate > "2020-04-00" and takenDate < "2020-04-30")');
 
 def borrowedBook():
@@ -164,7 +162,6 @@ def borrowedBook():
     c.execute('SELECT studentName from students where studentID in (SELECT studentID from students where grade = 8)');
 
 def showRows():
-    # c.execute('SELECT * from students')
     getRows = c.fetchall()
     for rows in getRows:
         print(rows)
