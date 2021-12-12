@@ -143,8 +143,18 @@ def notReturnedBook():
 def checkOut():
     #ascending order of studentIDs
     c.execute('SELECT studentID from borrow_register ORDER BY studentID')
+
+def leftJoinBooks():
+    c.execute('SELECT * FROM books left join borrow_register using (bookID)')
+    c.execute('SELECT bookName from borrow_register where studentID = 5')
+
+def leftJoinStudents():
+    c.execute('SELECT * FROM students left join borrow_register using (studentID)')
 def borrowedBook(date1, date2): 
-    c.execute('SELECT studentName, bookName from borrow_register where takenDate > ? and takenDate < ?', (date1, date2) )
+    
+    c.execute('SELECT studentID from borrow_register where takenDate > ? and takenDate < ?', (date1, date2) )
+    # c.execute('SELECT bookName from borrow_register where studentID = 5')
+    # c.execute('SELECT bookName from borrow_register where studentID = 2')
 
 def showStudents():
     # c.execute('SELECT * from students')
@@ -187,7 +197,10 @@ def delete():
 
 # pageCountNumber()
 # notReturnedBook()
-checkOut()
+# checkOut()
+leftJoinBooks()
+# leftJoinStudents()
+# borrowedBook('2020-04-00', '2020-04-30')
 showStudents()
 showBooks()
 showBorrow_register()

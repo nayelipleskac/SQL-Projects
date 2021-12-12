@@ -26,7 +26,11 @@
 # # Calling the function
 # Nmaxelements(highScores, 5)
 
-a = [[1,10], [2, 20], [3, 30], [4, 40]]
-print(a)
-a.clear()
-print(a)
+# a = [[1,10], [2, 20], [3, 30], [4, 40]]
+# print(a)
+# a.clear()
+# print(a)
+
+ids = [1,10]
+for x in ids:
+    print(x)
