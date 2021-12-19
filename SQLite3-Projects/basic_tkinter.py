@@ -3,10 +3,20 @@ root =  Tk()
 root.title('Hello world')
 
 def clear():
-    name_entry.delete(0, END)
+    first_name_entry.delete(0, END)
+    last_name_entry.delete(0, END)
+    age_entry.delete(0, END)
+    grade_entry.delete(0, END)
+    city_entry.delete(0, END)
+
 def submit():
-    a = name_entry.get()
-    print(a)
+    a = first_name_entry.get()
+    b = last_name_entry.get()
+    c = age_entry.get()
+    d = grade_entry.get()
+    e = city_entry.get()
+
+    print(a, b, c, d, e)
     
 def labelAndEntry(labelName,text):
     labelName = Label(root, text = text)
@@ -28,10 +38,10 @@ first_name_label.pack()
 first_name_entry = Entry(root)
 first_name_entry.pack() 
 
-name_label = Label(root, text = 'Last Name')
-name_label.pack()
-name_entry = Entry(root)
-name_entry.pack() 
+last_name_label = Label(root, text = 'Last Name')
+last_name_label.pack()
+last_name_entry = Entry(root)
+last_name_entry.pack() 
 
 age_label = Label(root, text = 'Age')
 age_label.pack()
