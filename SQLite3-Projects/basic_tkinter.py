@@ -103,28 +103,33 @@ root.title('Social Medias')
 # root.mainloop()
 
 ## variables
+
+# name = StringVar()
+# name_value = name.get()
+# name.set('nayeli')
+
 import random
-name = StringVar()
-name_value = name.get()
-name.set('nayeli')
 
 
-result = StringVar()
-result.set(another)
-result_label= Label(root, textvariable = result)
+def generateNum(num1, num2):
+    start = num1
+    end = num2
+    generate_result = StringVar()
+    # generate_result = random.randint(start, end)
+    print(generate_result)
 
-def generateNum():
-    start = 90
-    end = 100
-    another= random.randint(start, end)
+    result = StringVar()
+    result.set(generate_result)
+    result_label= Label(root, textvariable = result, bg = 'yellow')
+    result_label.grid(row = 2, column = 2)
    
 
-label = Label(root, text= 'give me a range: ex: start-end')
+label = Label(root, text= 'Give me a range: ex: start-end')
 label.grid(row = 1, column = 1)
 label_entry = Entry(root)
 label_entry.grid(row = 1, column = 2)
-generate_button = Button(root, text= 'Generate', command = generateNum)
-generate_button.grid(row = 2, column = 2)
+generate_button = Button(root, text= 'Generate', command = generateNum(10, 20))
+generate_button.grid(row = 3, column = 2)
 
 
 
