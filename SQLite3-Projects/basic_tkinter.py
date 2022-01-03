@@ -1,6 +1,13 @@
-from tkinter import *
-from tkinter import messagebox
-root =  Tk()
+## confused about variables; would like more examples
+##ask about excersise 1, creating varialbes for textvariable 
+
+#get() and set() are commonly used for validation; checking if user input is correct, protecting data
+#.set(function for validating user input)
+
+
+import tkinter as tk
+from tkinter import Button, Entry, Label, StringVar, messagebox
+root =  tk.Tk()
 root.title('Social Medias')
 
 # def clear():
@@ -110,27 +117,38 @@ root.title('Social Medias')
 
 import random
 
-
 def generateNum(num1, num2):
-    start = num1
-    end = num2
     generate_result = StringVar()
-    # generate_result = random.randint(start, end)
-    print(generate_result)
+    generate_result = random.randint(num1, num2)
+    print('generated result - ',generate_result)
 
-    result = StringVar()
-    result.set(generate_result)
-    result_label= Label(root, textvariable = result, bg = 'yellow')
+    # generatate_result.set(generate_result)
+    result_label= Label(root, textvariable = generate_result, bg = 'yellow')
     result_label.grid(row = 2, column = 2)
-   
+
+def getLabelEntryResult():
+    label_entry_value = label_entry.get("1.0", "end")
+    # print('label entry value - ', label_entry_value)
+    # print(label_entry_value.split())
+    nums = label_entry_value.split()
+    if len(nums) > 0:
+
+        print(nums[0])
+        a = int(nums[0])
+        b = int(nums[1])
+
+        # # a = int(a)
+        # # b = int(b)
+        generateNum(a,b)
 
 label = Label(root, text= 'Give me a range: ex: start-end')
 label.grid(row = 1, column = 1)
-label_entry = Entry(root)
+
+label_entry = tk.Text(root, height = 5, width= 5)
 label_entry.grid(row = 1, column = 2)
-generate_button = Button(root, text= 'Generate', command = generateNum(10, 20))
+getLabelEntryResult()
+
+generate_button = Button(root, text= 'Generate', command = getLabelEntryResult)
 generate_button.grid(row = 3, column = 2)
-
-
 
 root.mainloop()
