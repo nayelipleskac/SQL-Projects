@@ -15,6 +15,7 @@ def createTable(firstName, lastName, emailId, age, phoneNumber, city):
     conn.commit()
 
     print('CREATION OF TABLE AND INSERT SUCCESSFUL')
+    showTable()
 
 def updatePhoneNumber(phoneNumber, firstName):
     c.execute('UPDATE users SET phoneNumber = ? WHERE firstName = ?', (phoneNumber, firstName))
@@ -109,27 +110,28 @@ def maxOrders():
     c.execute('SELECT MAX(ordersTaken) from employee')
 
 def showTable():
-    # c.execute("SELECT * FROM employee") #only use for createTable
-    getRows = c.fetchall()
-    for row in getRows:
-        print(row)
+    print('in showTable')
+    c.execute("SELECT * FROM employee") #only use for createTable
+    # getRows = c.fetchall()
+    # for row in getRows:
+    #     print(row)
 
 def deleteTable():
     c.execute("DROP TABLE employee")
 
-# createTable('Tony', 'Stark', '2017-05-21', 870, 'USA')
-# createTable('Natasha', 'Romanolf', '2018-06-08', 350, 'Russia')
-# createTable('Thor', 'Odinson', '2019-01-04', 3000, 'Asgard')
-# createTable('Steve', 'Rogers', '2013-03-24', 3500, 'USA')
-# createTable('Perer', 'Parker', '2018-01-04',470, 'India')
-# totalOrders()
+createTable('Tony', 'Stark', '2017-05-21', 870, 'USA')
+createTable('Natasha', 'Romanolf', '2018-06-08', 350, 'Russia')
+createTable('Thor', 'Odinson', '2019-01-04', 3000, 'Asgard')
+createTable('Steve', 'Rogers', '2013-03-24', 3500, 'USA')
+createTable('Perer', 'Parker', '2018-01-04',470, 'India')
+totalOrders()
 # groupByCountry()
 # experience()
 # comparision('2017-01-01', '2019-01-01')
 # likeNames()
 # count('2015-01-01')
 # country()
-maxOrders()
+# maxOrders()
 
 showTable()
 
