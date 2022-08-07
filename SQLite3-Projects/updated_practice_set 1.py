@@ -1,6 +1,9 @@
 import sqlite3
 
 # c = conn.cursor()
+#HW!!!
+#complete sql functionality w/ one class and user input
+#then do the same with inheritanceand two classes
 
 class Database:
     def __init__(self, database_file):
@@ -46,7 +49,7 @@ if __name__ == '__main__':
     app = Database('updated practice1.db')
     print('choose an option:\n')
     print('A to delete')
-    
+
     app.deleteRow('Nayeli', 'Pleskac')
     app.createTable('Nayeli', 'Pleskac', 'npleskac@gmail.com', 15, '545-482-9382', 'MH')
     app.updatePhoneNumber('545-482-1111', 'Nayeli')
