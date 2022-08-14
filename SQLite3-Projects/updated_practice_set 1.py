@@ -11,6 +11,7 @@ class Database:
         # self.lastName = 'Pleskac'
         self.conn = sqlite3.connect(database_file)
         self.c = self.conn.cursor()
+        self.cmd = None
     def createTable(self, firstName, lastName, emailId, age, phoneNumber, city):
         self.c.execute("SELECT * FROM sqlite_schema WHERE type='table' AND name= 'users' ")
         if self.c.fetchone()== None: 
@@ -34,6 +35,24 @@ class Database:
     def updatePhoneNumber(self, phoneNumber, firstName):
         self.c.execute('UPDATE users SET phoneNumber = ? WHERE firstName = ?', (phoneNumber, firstName))
         self.conn.commit()
+    def interface(self):
+        print('a) create new database')
+        print('b) edit new database')
+        self.cmd = input('>: ')
+        
+    def run(self):
+        while True: 
+            self.interface()
+            if self.cmd == 'a':
+                pass
+            elif self.cmd == 'b':
+                pass
+            else:
+                print('chooose a or b')
+
+        
+
+
     
 
     def showTable(self):
@@ -47,9 +66,8 @@ class Database:
 
 if __name__ == '__main__':
     app = Database('updated practice1.db')
-    print('choose an option:\n')
-    print('A to delete')
-
+    
+ 
     app.deleteRow('Nayeli', 'Pleskac')
     app.createTable('Nayeli', 'Pleskac', 'npleskac@gmail.com', 15, '545-482-9382', 'MH')
     app.updatePhoneNumber('545-482-1111', 'Nayeli')
