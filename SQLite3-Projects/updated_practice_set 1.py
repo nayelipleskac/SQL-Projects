@@ -1,11 +1,7 @@
 import sqlite3
 
 # c = conn.cursor()
-#HW!!!
-#complete sql functionality w/ one class and user input (DONE)
-#then do the same with inheritanceand two classes
-#include error handling if two first names are the same, target the correct one
-# ex: update phoneNumber
+
 
 class Database:
     def __init__(self, database_file):

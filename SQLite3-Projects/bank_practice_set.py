@@ -1,3 +1,10 @@
+#HW!!!
+#complete sql functionality w/ one class and user input (DONE)
+#then do the same with inheritanceand two classes (done)
+#include error handling if two first names are the same, target the correct one
+# ex: update phoneNumber
+
+
 import sqlite3
 
 class Database:
@@ -14,15 +21,30 @@ class Database:
         self.c.execute("INSERT INTO users(firstName, lastName, emailId, age, phoneNumber, city) VALUES (?,?,?,?,?,?)",(firstName, lastName, emailID, age, phoneNumber, city)) #inserts one row
         self.conn.commit()
     def deleteRow(self, firstName, lastName):
+        query = 'SELECT * FROM users'
+        self.c.execute(query)
+        records= self.c.fetchall()
+        for row in records: 
+            if firstName or lastName not in records:
+                print('Either name entered is not found')
         self.c.execute('DELETE FROM users WHERE firstName = ? and lastName = ?', (firstName, lastName))
+        
         if self.c.fetchone() == None:
             print('user has been deleted')
-    def updatePhoneNumber(self, phoneNumber, firstName):
+    def updatePhoneNumber(self, phoneNumber, firstName, lastName):
+        query = 'SELECT * FROM users'
+        self.c.execute(query)
+        records= self.c.fetchall()
         if type(phoneNumber) == int:
-            self.c.execute('UPDATE users SET phoneNumber = ? WHERE firstName = ?', (phoneNumber, firstName))
+            self.c.execute('UPDATE users SET phoneNumber = ? WHERE firstName = ? and lastName = ?', (phoneNumber, firstName, lastName))
             self.conn.commit()
-        else: 
+        elif type(phoneNumber) != int: 
             print('Enter a valid phone number')
+
+        for row in records: 
+            if firstName not in records:
+                print('first name entered is not found')
+            
         
     def close(self):
         self.conn.close()
@@ -32,56 +54,61 @@ class Bank(Database):
         Database.__init__(self, 'updated bank practice.db')
         self.cmd = None
     def interface(self):
-        print('a) create new database')
+        print('a) create new/insert into database')
         print('b) edit new database')
         self.cmd = input('\n>: ')
     def run(self):
         while True: 
             self.interface()
-            print('\n RUN FUNCTION\n')
             if self.cmd == 'a':
-                print('user pressed option a')
                 firstNameInput = input('first name: ')
                 lastNameInput = input('last name: ')
                 emailInput = input('email: ')
                 ageInput = input('age: ')
                 phoneInput = input('phone #: ')
                 cityInput = input('city: ')
-                self.createTable(firstNameInput, lastNameInput, emailInput, ageInput, phoneInput, cityInput)
-                self.showTable()
+                if firstNameInput or lastNameInput or emailInput or phoneInput or cityInput == '':
+                    print('\n--enter in valid information--\n')
+                else:
+                    self.createTable(firstNameInput, lastNameInput, emailInput, ageInput, phoneInput, cityInput)
+                    self.showTable()
             if self.cmd == 'b':
                 print('c) delete row')
                 print('d) update phone number')
                 print('e) close database')
                 self.cmd = input(':> ')
                 if self.cmd == 'c':
-                    print('user pressed c')
                     firstNameInput = input('first name: ')
                     lastNameInput = input('last name: ')
-                    self.deleteRow(firstNameInput, lastNameInput)
-                    self.showTable()
+                    if firstNameInput or lastNameInput == '':
+                        print('\n--enter in valid infomation--\n')
+                    else:
+                        self.deleteRow(firstNameInput, lastNameInput)
+                        self.showTable()
                 if self.cmd == 'd':
                     updatedPhoneInput = input('phone number: ')
                     firstNameInput = input('first name: ')
-                    self.updatePhoneNumber(updatedPhoneInput, firstNameInput)
-                    self.showTable()
+                    lastNameInput = input('last name: ')
+                    if firstNameInput or lastNameInput == '':
+                        print('\n--enter in valid information--\n')
+                    else:    
+                        self.updatePhoneNumber(updatedPhoneInput, firstNameInput, lastNameInput)
+                        self.showTable()
                 if self.cmd == 'e':
                     self.close()
-                    print('self.clse')
+                    print('closing database')
                     break
             else:
                 print('choose a or b to start')
 
     def showTable(self):
         query = 'SELECT * FROM users'
+        query2 = 'PRAGMA table_info(users)'
         self.c.execute(query)
         records= self.c.fetchall()
         # getRows= c.fetchall()
         for row in records: 
-            print('\n',row,'\n')
-    
- 
-
+            print(row,'\n')
 class App:
     def __init__(self, database_file):
         self.bank = Bank()
