@@ -1,10 +1,3 @@
-#HW!!!
-#complete sql functionality w/ one class and user input (DONE)
-#then do the same with inheritanceand two classes (done)
-#include error handling if two first names are the same, target the correct one
-# ex: update phoneNumber
-
-
 import sqlite3
 
 class Database:
@@ -119,5 +112,5 @@ class App:
 
 if __name__ == '__main__':
     # database = Database('updated bank practice.db')
-    app = App('updated bank practice.db')
+    app = App('updatedbankpractice.db')
         
