@@ -14,14 +14,18 @@ class Database:
         self.dbn = None #database name 
         self.tn = None #table name
     def createTable(self):
-        self.c.execute("SELECT * FROM sqlite_schema WHERE type='table' AND name= 'users' ")
+        
         if self.c.fetchone() == None: 
-            self.c.execute('CREATE TABLE users(userId integer PRIMARY KEY AUTOINCREMENT, firstName text, lastName text, emailId text, age integer, phoneNumber text, city text)') 
+            self.c.execute('''CREATE TABLE {}(userId integer PRIMARY KEY AUTOINCREMENT, firstName text, lastName text, emailId text, age integer, phoneNumber text, city text)'''.format(self.tn))
         print('table has been created')
-        # self.c.execute("INSERT INTO users(firstName, lastName, emailId, age, phoneNumber, city) VALUES (?,?,?,?,?,?)",(firstName, lastName, emailID, age, phoneNumber, city)) #inserts one row
+
+        # self.c.execute('''INSERT INTO {}(firstName, lastName, emailId, age, phoneNumber, city) VALUES (?,?,?,?,?,?)",(firstName, lastName, emailID, age, phoneNumber, city)'''.format(self.tn)) 
+        
+        # self.c.execute("SELECT * FROM table = ?", (self.tn))
         self.conn.commit()
+        
     def insertRow(self, firstName, lastName, emailID, age, phoneNumber, city):
-        self.c.execute("INSERT INTO users(firstName, lastName, emailId, age, phoneNumber, city) VALUES (?,?,?,?,?,?)",(firstName, lastName, emailID, age, phoneNumber, city)) #inserts one row
+        self.c.execute("INSERT INTO {}(firstName, lastName, emailId, age, phoneNumber, city) VALUES (?,?,?,?,?,?)".format(self.tn),(firstName, lastName, emailID, age, phoneNumber, city)) #inserts one row
         self.conn.commit()
     def deleteRow(self, firstName, lastName):
         query = 'SELECT * FROM users'
@@ -59,14 +63,10 @@ class Bank(Database):
         Database.__init__(self, 'updatedbankpractice.db')
         self.cmd = None
     def interface(self):
-        # print('a) create first row in table')
-        # print('b) edit new table')
-        # print('c) insert into table')
-        # # self.showTable()
         print('a) select from a table')
         print('b) select from databases')
         print('c) create new table')
-        print('d) edit new table')
+        print('d) insert into table')
         self.cmd = input('\n>: ')
     def run(self):
         while True: 
@@ -74,12 +74,12 @@ class Bank(Database):
             if self.cmd == 'a':
                 print('table name: ')
                 self.tn = input('>: ')
-                q = "SELECT * FROM " + self.tn
-                print(q)
+                q = "SELECT * FROM " + self.tn + ";"
+                self.c.execute(q)
                 records= self.c.fetchall()
                 for row in records: 
                     print(row,'\n')
-                self.c.execute("SELECT * FROM " + self.tn)
+                
                         
                 # firstNameInput = input('first name: ')
                 # lastNameInput = input('last name: ')
@@ -92,11 +92,23 @@ class Bank(Database):
                 # else:
                 # self.createTable(firstNameInput, lastNameInput, emailInput, ageInput, phoneInput, cityInput)
                 # self.showTable()
+
+            #*** allow the user to see all availble tables in database_file ***
             if self.cmd == 'b':
-                print('enter database name: ')
+                print('enter database name')
                 self.db = input('>: ')
-                q = self.db + '.db'
-                self.c.execute('.tables')
+                q = self.db + '.db' 
+                sql_query = """SELECT name FROM sqlite_master WHERE type = 'table'"""
+                self.c.execute(sql_query)
+                print('List of tables\n')
+                print(self.c.fetchall())
+                self.close()
+
+                # self.c.execute('SHOW TABLES')
+                
+                # records= self.c.fetchall()
+                # for row in records: 
+                #     print(row,'\n')
                 #print out table names in database
 
 
@@ -126,16 +138,36 @@ class Bank(Database):
                 #     print('closing database')
                 #     break
             if self.cmd == 'c':
+                self.tn = input('table name: ')
                 firstNameInput = input('first name: ')
                 lastNameInput = input('last name: ')
                 emailInput = input('email: ')
                 ageInput = input('age: ')
                 phoneInput = input('phone #: ')
                 cityInput = input('city: ')
+                if firstNameInput=='' or lastNameInput=='' or emailInput=='' or ageInput=='' or phoneInput==''or cityInput == '':
+                    print('\n--enter in valid information--\n')
+                self.createTable(firstNameInput, lastNameInput, emailInput, ageInput, phoneInput, cityInput)
+                q= 'SELECT * FROM ' + self.tn + ';'
+                self.c.execute(q)
+                records= self.c.fetchall()
+                for row in records: 
+                    print(row,'\n')
+
+            if self.cmd == 'd':
+                self.tn = input('table name: ')
+                firstNameInput = input('first name: ')
+                lastNameInput = input('last name: ')
+                emailInput = input('email: ')
+                ageInput = input('age: ')
+                phoneInput = input('phone #: ')
+                cityInput = input('city: ')
+                if firstNameInput=='' or lastNameInput=='' or emailInput=='' or ageInput=='' or phoneInput==''or cityInput == '':
+                    print('\n--enter in valid information--\n')
                 self.insertRow(firstNameInput, lastNameInput, emailInput, ageInput, phoneInput, cityInput)
-                self.showTable()
-            elif self.cmd != 'a':
-                print('choose a or b to start')
+
+            elif self.cmd != 'a' or self.cmd != 'b' or self.cmd != 'c' or self.cmd != 'd':
+                print('choose a-d to start')
 
     def showTable(self):
         query = 'SELECT * FROM users'
