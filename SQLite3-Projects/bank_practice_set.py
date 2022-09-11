@@ -1,10 +1,5 @@
 import sqlite3
 
-#self.tblname
-#creating more than one table (users, .., ..)
-#asking the user to select which table to view
-#showTable --> accepts which tblname parameter 
-
 class Database:
     def __init__(self, database_file):
         self.conn= sqlite3.connect(database_file)
@@ -87,32 +82,6 @@ class Bank(Database):
                 print(self.c.fetchall())
                 self.close()
 
-
-                # print('c) delete row')
-                # print('d) update phone number')
-                # print('e) close database')
-                # self.cmd = input(':> ')
-                # if self.cmd == 'c':
-                #     firstNameInput = input('first name: ')
-                #     lastNameInput = input('last name: ')
-                #     # if firstNameInput or lastNameInput == '':
-                #     #     print('\n--enter in valid infomation--\n')
-                #     # else:
-                #     self.deleteRow(firstNameInput, lastNameInput)
-                #     self.showTable()
-                # if self.cmd == 'd':
-                #     updatedPhoneInput = input('phone number: ')
-                #     firstNameInput = input('first name: ')
-                #     lastNameInput = input('last name: ')
-                #     # if firstNameInput or lastNameInput == '':
-                #     #     print('\n--enter in valid information--\n')
-                #     # else:    
-                #     self.updatePhoneNumber(updatedPhoneInput, firstNameInput, lastNameInput)
-                #     self.showTable()
-                # if self.cmd == 'e':
-                #     self.close()
-                #     print('closing database')
-                #     break
             if self.cmd == 'c':
                 self.tn = input('table name: ')
                 firstNameInput = input('first name: ')
