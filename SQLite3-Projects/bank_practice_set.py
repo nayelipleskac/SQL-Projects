@@ -19,9 +19,6 @@ class Database:
             self.c.execute('''CREATE TABLE {}(userId integer PRIMARY KEY AUTOINCREMENT, firstName text, lastName text, emailId text, age integer, phoneNumber text, city text)'''.format(self.tn))
         print('table has been created')
 
-        # self.c.execute('''INSERT INTO {}(firstName, lastName, emailId, age, phoneNumber, city) VALUES (?,?,?,?,?,?)",(firstName, lastName, emailID, age, phoneNumber, city)'''.format(self.tn)) 
-        
-        # self.c.execute("SELECT * FROM table = ?", (self.tn))
         self.conn.commit()
         
     def insertRow(self, firstName, lastName, emailID, age, phoneNumber, city):
@@ -79,37 +76,18 @@ class Bank(Database):
                 records= self.c.fetchall()
                 for row in records: 
                     print(row,'\n')
-                
-                        
-                # firstNameInput = input('first name: ')
-                # lastNameInput = input('last name: ')
-                # emailInput = input('email: ')
-                # ageInput = input('age: ')
-                # phoneInput = input('phone #: ')
-                # cityInput = input('city: ')
-                # if firstNameInput or lastNameInput or emailInput or phoneInput or cityInput == '':
-                #     print('\n--enter in valid information--\n')
-                # else:
-                # self.createTable(firstNameInput, lastNameInput, emailInput, ageInput, phoneInput, cityInput)
-                # self.showTable()
 
             #*** allow the user to see all availble tables in database_file ***
             if self.cmd == 'b':
                 print('enter database name')
                 self.db = input('>: ')
-                q = self.db + '.db' 
+                q = self.db + '.db'  
                 sql_query = """SELECT name FROM sqlite_master WHERE type = 'table'"""
+                # sql_query= """SELECT name from sys.Databases WHERE name NOT IN ('master', 'tempdb', 'model', 'msdb')"""
                 self.c.execute(sql_query)
                 print('List of tables\n')
                 print(self.c.fetchall())
                 self.close()
-
-                # self.c.execute('SHOW TABLES')
-                
-                # records= self.c.fetchall()
-                # for row in records: 
-                #     print(row,'\n')
-                #print out table names in database
 
 
                 # print('c) delete row')
@@ -186,7 +164,6 @@ class App:
 
 
 if __name__ == '__main__':
-    # database = Database('updated bank practice.db')
     app = App('updatedbankpractice.db')
     #change file to database name
         
