@@ -14,7 +14,6 @@ class Database:
         self.dbn = None #database name 
         self.tn = None #table name
     def createTable(self):
-        
         if self.c.fetchone() == None: 
             self.c.execute('''CREATE TABLE {}(userId integer PRIMARY KEY AUTOINCREMENT, firstName text, lastName text, emailId text, age integer, phoneNumber text, city text)'''.format(self.tn))
         print('table has been created')
@@ -77,7 +76,6 @@ class Bank(Database):
                 for row in records: 
                     print(row,'\n')
 
-            #*** allow the user to see all availble tables in database_file ***
             if self.cmd == 'b':
                 print('enter database name')
                 self.db = input('>: ')
