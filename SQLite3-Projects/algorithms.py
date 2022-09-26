@@ -1,5 +1,6 @@
 import random
 
+#exercise 1
 # nums = [2,4,6,8,10,12,14]
 # num_var = random.choice(nums)
 
@@ -18,21 +19,86 @@ import random
 # n = int(input("Number? "))
 # print(factorial(n))
 
-def fibonacci(n):
-    n1, n2 = 0,1
-    count = 0
-    if n is 1: #This is the base case
-        return 0 
-    if n <= 0: 
-        print('enter positive values')
-    while count <= n:
-        # print(n1)
-        nth = n1+n2
-        n1 = n2
-        n2 =  nth
-        count +=1
-    return fibonacci(n) * fibonacci(n-1)
-n = int(input('Find the nth number in sequence')) 
-print(fibonacci(n)) 
+#exercise 2
+# def fibonacci(n):
+#     if n ==0:
+#         return 0
+#     if n == 1:
+#         return 1
+#     else:
+#         return fibonacci(n-1) + fibonacci(n-2)
+# n = int(input('Find the nth number in sequence: ')) 
+# print(fibonacci(n)) 
+# for i in range(n):
+#     print(fibonacci(i))
+
+#exercise 3
+# print(123%10+(123//10))
+
+#adding the sum of entered digits
+
+# def sum(n):
+#     if n==0:
+#         return 0
+#     else:
+#         return n%10+sum(n//10)
+
+# n = int(input('Enter a number: '))
+# print(sum(n))
+
+#exercise 4
+# print('hello'[1:])
+# def reverse(x):
+#     if len(x) == 0:
+#         return x 
+#     else:
+#         # firstElement = x[1]
+#         return reverse(x[1:]) + x[0]
+
+# x = input('Enter a string: ')
+# print(reverse(x))
+
+#exercise 5- pascal's triangle w/ recursion
+print(1)
+layer = [1, 1]
+layers = 1
+while layers < 10:
+    for elem in layer:
+        print(elem,end=' ')
+    print()
+    new_layer = []
+    for i in range(len(layer)-1):
+        num1 = layer[i]
+        num2 = layer[i+1]
+        new_layer.append(num1 + num2)
+    new_layer=[1] + new_layer + [1]
+    layer=new_layer
+    layers+=1
+
+
+def triangle(n):
+    layer = [1,1]
+    if n == 0:
+        return 0
+    if n== 1:
+        return 1
+    if n==2:
+        return 1,1
+    else:
+        print()
+        
+        num1 = triangle(n)
+        num2 = triangle(n+1)
+
+        return 
+
+
+n = int(input('number of layers in triangle: '))
+print(triangle(n))
+
+
+
+
+
 
 
