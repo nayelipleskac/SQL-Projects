@@ -27,8 +27,10 @@ import random
 #         return 1
 #     else:
 #         return fibonacci(n-1) + fibonacci(n-2)
-# n = int(input('Find the nth number in sequence: ')) 
+# n = int(input('Find the nth number in fibonacci sequence: ')) 
+# #print just n
 # print(fibonacci(n)) 
+# #to print out sequence of n
 # for i in range(n):
 #     print(fibonacci(i))
 
@@ -58,43 +60,49 @@ import random
 # x = input('Enter a string: ')
 # print(reverse(x))
 
-#exercise 5- pascal's triangle w/ recursion
-print(1)
-layer = [1, 1]
-layers = 1
-while layers < 10:
-    for elem in layer:
-        print(elem,end=' ')
-    print()
-    new_layer = []
-    for i in range(len(layer)-1):
-        num1 = layer[i]
-        num2 = layer[i+1]
-        new_layer.append(num1 + num2)
-    new_layer=[1] + new_layer + [1]
-    layer=new_layer
-    layers+=1
+#exercise 5- pascal's triangle without recursion
+# print(1)
+# layer = [1, 1]
+# layers = 1
+# while layers < 10:
+#     for elem in layer:
+#         print(elem,end=' ')
+#     print()
+#     new_layer = []
+#     for i in range(len(layer)-1):
+#         num1 = layer[i]
+#         num2 = layer[i+1]
+#         new_layer.append(num1 + num2)
+#     new_layer=[1] + new_layer + [1]
+#     layer=new_layer
+#     layers+=1
 
-
-def triangle(n):
-    layer = [1,1]
-    if n == 0:
-        return 0
-    if n== 1:
-        return 1
-    if n==2:
-        return 1,1
-    else:
-        print()
+#with recursion
+#call function once in recursion
+#should be fairly short
+#figure out the part where find the nums of previous layer
+def triangle(layer): #high = new sum
+    # layer = [1,1]
+    low = 1
+    if layers == 0:  #base cases
+        return [0]
+    if layers == 1:
+        return [1]
+    while layers < 10:
+        new_layer = []
+        #previous layer:
+        for i in range(len(layer)-1):
+            num1= layer[i]
+            num2 = layer[i+1]
         
-        num1 = triangle(n)
-        num2 = triangle(n+1)
-
-        return 
-
-
-n = int(input('number of layers in triangle: '))
-print(triangle(n))
+        new_layer.append(num1 + num2) 
+        new_layer = [1] + new_layer +[1]
+        return triangle(new_layer)
+        
+        # return triangle(new_layer)
+layers = int(input('number of layers in triangle: '))
+print('1')
+print(triangle([1,1]))
 
 
 
