@@ -81,29 +81,36 @@ import random
 #call function once in recursion
 #should be fairly short
 #figure out the part where find the nums of previous layer
-def triangle(layer): #high = new sum
+def pascal(layer): #high = new sum 'low, high, result'
     # layer = [1,1]
     low = 1
     if layers == 0:  #base cases
-        return [0]
+        return [[0]]
     if layers == 1:
-        return [1]
-    while layers < 10:
-        new_layer = []
-        #previous layer:
-        for i in range(len(layer)-1):
-            num1= layer[i]
-            num2 = layer[i+1]
+        return [[1]]   
+    # if layers >= 10: 
+    #     return result
+    else:
         
-        new_layer.append(num1 + num2) 
-        new_layer = [1] + new_layer +[1]
-        return triangle(new_layer)
+        #recursive call :
+        rec_row = pascal(layer-1)
+       
+        prev_layer= rec_row[-1]
+        for i in range(len(prev_layer)-1):
+            num1= prev_layer[i]
+            num2 = prev_layer[i+1]
+            new_layer.append(num1 + num2)
+
+        new_layer += [1] #every row starts with 1
+        rec_row.append(new_layer)     
+        # new_layer = [1] + new_layer +[1]
+        return rec_row
         
         # return triangle(new_layer)
-layers = int(input('number of layers in triangle: '))
-print('1')
-print(triangle([1,1]))
-
+# layers = int(input('number of layers in triangle: '))
+layers = 5
+print(1)
+print(pascal(layers))
 
 
 
