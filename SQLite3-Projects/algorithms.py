@@ -51,19 +51,19 @@ import random
 #         return n%10+sum(n//10)
 
 # n = int(input('Enter a number: '))
-# print(sum(n))
+# print('sum: ', sum(n))
+
 
 #exercise 4
 # print('hello'[1:])
-# def reverse(x):
-#     if len(x) == 0:
-#         return x 
-#     else:
-#         # firstElement = x[1]
-#         return reverse(x[1:]) + x[0]
+def reverse(x):
+    if len(x) == 0:
+        return x 
+    else:
+        return reverse(x[1:]) + x[0]
 
-# x = input('Enter a string: ')
-# print(reverse(x))
+x = input('Enter a string: ')
+print(reverse(x))
 
 #exercise 5- pascal's triangle without recursion
 # print(1)
@@ -84,35 +84,34 @@ import random
 
 #with recursion
 
-def pascal(layer): 
-    # layer = [1,1]
-    # print('layers: ', layers)
-    if len(layer) > 10:  #base cases
-        return
-    # if layers == 1:
-    #     return [[1]]   
-    else: 
-        for i in layer:
-            print(i, end = ' ')
-        print()
-        #recursive call :
-        # rec_row = pascal(layer-1)
-        # prev_layer= rec_row[-1]
-        new_layer = []
-        for i in range(len(layer)-1):
-            num1= layer[i]
-            num2 = layer[i+1]
-            new_layer.append(num1 + num2)
+# def pascal(layer): 
+#     # layer = [1,1]
+#     # print('layers: ', layers)
+#     if len(layer) > 10:  #base cases
+#         return
+#     # if layers == 1:
+#     #     return [[1]]   
+#     else: 
+#         for i in layer:
+#             print(i, end = ' ')
+#         print()
+#         #recursive call :
+#         # rec_row = pascal(layer-1)
+#         # prev_layer= rec_row[-1]
+#         new_layer = []
+#         for i in range(len(layer)-1):
+#             num1= layer[i]
+#             num2 = layer[i+1]
+#             new_layer.append(num1 + num2)
 
-        new_layer = [1] + new_layer + [1] 
-        layer = new_layer
-        # rec_row.append(new_layer)     
-        pascal(layer)
+#         new_layer = [1] + new_layer + [1] 
+#         layer = new_layer
+#         # rec_row.append(new_layer)     
+#         pascal(layer)
         
-print(1)
-layer = [1,1]
-pascal(layer)
-
+# print(1)
+# layer = [1,1]
+# pascal(layer)
 
 
 
