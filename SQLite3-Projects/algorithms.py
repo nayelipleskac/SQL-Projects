@@ -1,21 +1,32 @@
+
+
+#exercise 1- linear search
+# setup_code= 'from math import factorial'
+
+import time, timeit
+start = time.time()
+setup = '''
 import random
 
-#call function once in recursion
-#should be fairly short
-#figure out the part where find the nums of previous layer
+nums = [2,4,6,8,10,12,14]
+num_var = random.choice(nums)
+
+def linearSearch(nums):
+    for i in nums:
+        if i == num_var:
+            print('found the number:',i, ' index: ',nums.index(i))
+            break
+        else:
+            print('number not found:',i, ' index:', nums.index(i))
+'''
+# start_time = timeit.default_timer()
+# print('the starttime is, ', start_time)
+# end = time.time()
+print('The time of execution of the linear search using time.time is: ', (end - start), 'ms') #0.0023 ms
+print(f"The time of execution of the linear search using timeit is:  {timeit.timeit(setup= setup, stmt = 'linearSearch', number = 1000000)}") # ms
+# print('The time difference is : ', timeit.default_timer() - start_time)
 
 
-#exercise 1
-# nums = [2,4,6,8,10,12,14]
-# num_var = random.choice(nums)
-
-# for i in nums:
-#     if i == num_var:
-#         print('found the number:',i, ' index: ',nums.index(i))
-#         break
-
-#     else:
-#         print('number not found:',i, ' index:', nums.index(i))
 
 # def factorial(n):
 #     if n is 1: #This is the base case
@@ -56,14 +67,14 @@ import random
 
 #exercise 4
 # print('hello'[1:])
-def reverse(x):
-    if len(x) == 0:
-        return x 
-    else:
-        return reverse(x[1:]) + x[0]
+# def reverse(x):
+#     if len(x) == 0:
+#         return x 
+#     else:
+#         return reverse(x[1:]) + x[0]
 
-x = input('Enter a string: ')
-print(reverse(x))
+# x = input('Enter a string: ')
+# print(reverse(x))
 
 #exercise 5- pascal's triangle without recursion
 # print(1)
