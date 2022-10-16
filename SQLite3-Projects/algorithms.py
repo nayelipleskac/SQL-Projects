@@ -3,8 +3,23 @@
 #exercise 1- linear search
 # setup_code= 'from math import factorial'
 
-import time, timeit
-start = time.time()
+import time, timeit, random
+from stopwatch import Stopwatch
+# start = time.time()
+# nums = [2,4,6,8,10,12,14]
+# num_var = random.choice(nums)
+# for i in nums:
+#         if i == num_var:
+#             print('found the number:',i, ' index: ',nums.index(i))
+#             break
+#         else:
+#             print('number not found:',i, ' index:', nums.index(i))
+
+#####################################################################
+## first linear search 
+## linear search algorithm uisng runtime calculations (timeit.timeit)
+#####################################################################
+
 setup = '''
 import random
 
@@ -22,11 +37,57 @@ def linearSearch(nums):
 # start_time = timeit.default_timer()
 # print('the starttime is, ', start_time)
 # end = time.time()
-print('The time of execution of the linear search using time.time is: ', (end - start), 'ms') #0.0023 ms
-print(f"The time of execution of the linear search using timeit is:  {timeit.timeit(setup= setup, stmt = 'linearSearch', number = 1000000)}") # ms
+# print('The time of execution of the linear search using time.time is: ', (end - start), 'ms') #0.0023 ms
+# print(f"The time of execution of the linear search using timeit is:  {timeit.timeit(setup= setup, stmt = 'linearSearch', number = 1000000)}") # ms
 # print('The time difference is : ', timeit.default_timer() - start_time)
 
+#####################################################################
+## second linear search 
+## linear search algorithm uisng runtime calculations (timeit.timeit)
+#####################################################################
 
+nums = [2,4,6,8,10,12,14]
+# num_var = random.choice(nums)
+
+def linearSearch(nums, num): #set of nums, target
+    for i in nums:
+        if i == num:
+            print('found the number:',i, ' index: ',nums.index(i))
+            break
+        else:
+            print('number not found:',i, ' index:', nums.index(i))
+
+# t = timeit.Timer(stmt=lambda: linearSearch(nums), number = 1).timeit()
+for i in nums:
+    t = timeit.timeit(stmt=lambda: linearSearch(nums, i), number = 1)
+    # t=round(t,8)
+    print('runtime for {}: {} secs\n'.format(i,t))
+
+###########################################################################
+## third linear search 
+## linear search algorithm uisng runtime calculations (stopwatch vs timeit)
+###########################################################################
+
+# nums = [2,4,6,8,10,12,14]
+
+# def linearSearch(nums, num): #set of nums, target
+#     stopwatch = Stopwatch()
+#     stopwatch.start()
+#     # t= stopwatch.
+#     # t.start()
+#     for i in nums:
+#         if i == num:
+#             print('found the number:',i, ' index: ',nums.index(i))
+#             stopwatch.stop()
+#             print('time elapsed for {}: {} secs\n '.format(i, stopwatch.duration))
+#             break
+#         # else:
+#         #     print('number not found:',i, ' index:', nums.index(i))
+        
+# for i in nums:
+#     linearSearch(nums,i)
+
+# start = time.time()
 
 # def factorial(n):
 #     if n is 1: #This is the base case
@@ -34,6 +95,8 @@ print(f"The time of execution of the linear search using timeit is:  {timeit.tim
 #     return n * factorial(n-1)
 # n = int(input("Number? "))
 # print(factorial(n))
+# end = time.time()
+# print('The time of execution of the linear search using time.time is: ', (end - start), 'ms') 
 
 #exercise 2
 # def fibonacci(n):
